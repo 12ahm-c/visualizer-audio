@@ -1,0 +1,68 @@
+.splash-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #000000, #111111);
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* مركزي عمودي */
+  align-items: center;    /* مركزي أفقي */
+  color: #fff;
+  z-index: 10;
+  overflow: hidden;
+  transition: opacity 1s ease;
+}
+
+.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.splash-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 4rem;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+  margin: 0;
+}
+
+.splash-subtitle {
+  font-size: 1.5rem;
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff;
+  margin-top: 10px; /* مسافة بسيطة أسفل العنوان الرئيسي */
+  text-align: center; /* يضمن توازن النص مع مركز العنوان الرئيسي */
+}
+
+.loader {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px; /* مسافة أسفل العنوان الفرعي */
+  justify-content: center; /* محاذاة loader في وسط العنوان الفرعي */
+}
+
+.loader span {
+  width: 12px;
+  height: 12px;
+  background: #0ff;
+  border-radius: 50%;
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+.loader span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loader span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  } 
+  40% {
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,53 @@
+.audio-selector-container {
+  height: 100vh;
+  background: linear-gradient(to bottom, #020617, #0f172a);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  gap: 20px;
+}
+
+.audio-selector-container h2 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.custom-file-upload {
+  padding: 14px 26px;
+  border-radius: 10px;
+  background: #38bdf8;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.custom-file-upload:hover {
+  background: #22d3ee;
+}
+
+.custom-file-upload input {
+  display: none;
+}
+
+.file-name {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.start-btn {
+  padding: 14px 30px;
+  border-radius: 12px;
+  border: none;
+  background: #22c55e;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.start-btn:hover {
+  background: #16a34a;
+}
