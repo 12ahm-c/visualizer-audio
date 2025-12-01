@@ -1,68 +1,319 @@
+/* SplashScreen.css - النسخة المحسنة */
+
 .splash-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, #000000, #111111);
+  background: linear-gradient(135deg, #000428 0%, #004e92 100%);
   display: flex;
   flex-direction: column;
-  justify-content: center; /* مركزي عمودي */
-  align-items: center;    /* مركزي أفقي */
+  justify-content: center;
+  align-items: center;
   color: #fff;
-  z-index: 10;
+  z-index: 10000;
   overflow: hidden;
-  transition: opacity 1s ease;
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+  perspective: 1000px;
 }
 
-.fade-out {
-  opacity: 0;
-  pointer-events: none;
+.splash-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+  animation: pulse 8s ease-in-out infinite;
+}
+
+.splash-content {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  transform-style: preserve-3d;
+  animation: float 6s ease-in-out infinite;
 }
 
 .splash-title {
   font-family: 'Orbitron', sans-serif;
-  font-size: 4rem;
-  color: #0ff;
-  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+  font-size: 5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00ffcc 0%, #00ccff 25%, #ff00ff 50%, #ffcc00 75%, #00ffcc 100%);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   margin: 0;
+  text-shadow: 
+    0 0 30px rgba(0, 255, 255, 0.5),
+    0 0 60px rgba(0, 204, 255, 0.3),
+    0 0 90px rgba(255, 0, 255, 0.2);
+  animation: shimmer 3s linear infinite;
+  letter-spacing: 3px;
+  position: relative;
+  padding: 20px;
+}
+
+.splash-title::after {
+  content: 'Audio Visualizer';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background: linear-gradient(90deg, #ff00ff 0%, #00ffff 50%, #ffcc00 100%);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  z-index: -1;
+  filter: blur(8px);
+  opacity: 0.7;
+  animation: shimmer 3s linear infinite reverse;
 }
 
 .splash-subtitle {
-  font-size: 1.5rem;
-  color: #0ff;
-  text-shadow: 0 0 5px #0ff;
-  margin-top: 10px; /* مسافة بسيطة أسفل العنوان الرئيسي */
-  text-align: center; /* يضمن توازن النص مع مركز العنوان الرئيسي */
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 20px;
+  margin-bottom: 40px;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  position: relative;
+  padding: 10px 30px;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 1px;
+}
+
+.splash-subtitle::before,
+.splash-subtitle::after {
+  content: '✦';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #00ffcc;
+  font-size: 1.2rem;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.splash-subtitle::before {
+  left: 0;
+}
+
+.splash-subtitle::after {
+  right: 0;
 }
 
 .loader {
   display: flex;
-  gap: 8px;
-  margin-top: 20px; /* مسافة أسفل العنوان الفرعي */
-  justify-content: center; /* محاذاة loader في وسط العنوان الفرعي */
+  gap: 15px;
+  margin-top: 40px;
+  position: relative;
+}
+
+.loader::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 180px;
+  border: 2px solid rgba(0, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: rotate 20s linear infinite;
 }
 
 .loader span {
-  width: 12px;
-  height: 12px;
-  background: #0ff;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  animation: bounce 1.2s infinite ease-in-out;
+  position: relative;
+  animation: bounce 1.8s infinite ease-in-out;
+  box-shadow: 
+    0 0 20px currentColor,
+    0 0 40px currentColor,
+    inset 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.loader span:nth-child(1) {
+  background: linear-gradient(45deg, #00ffcc, #00ccff);
+  color: #00ffcc;
+  animation-delay: 0s;
 }
 
 .loader span:nth-child(2) {
-  animation-delay: 0.2s;
+  background: linear-gradient(45deg, #ff00ff, #ffcc00);
+  color: #ff00ff;
+  animation-delay: 0.3s;
 }
+
 .loader span:nth-child(3) {
-  animation-delay: 0.4s;
+  background: linear-gradient(45deg, #00ccff, #ff00ff);
+  color: #00ccff;
+  animation-delay: 0.6s;
+}
+
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.3), transparent);
+  border-radius: 50%;
+  animation: float-particle 15s infinite linear;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotateX(5deg) rotateY(5deg);
+  }
+  50% {
+    transform: translateY(-20px) rotateX(-5deg) rotateY(-5deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
 }
 
 @keyframes bounce {
   0%, 80%, 100% {
-    transform: scale(0);
-  } 
+    transform: scale(0) translateY(0);
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
   40% {
+    transform: scale(1.2) translateY(-20px);
+    box-shadow: 
+      0 0 30px currentColor,
+      0 0 60px currentColor,
+      inset 0 0 20px rgba(255, 255, 255, 0.8);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
     transform: scale(1);
   }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.2);
+  }
+}
+
+@keyframes float-particle {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* تأثيرات للهواتف */
+@media (max-width: 768px) {
+  .splash-title {
+    font-size: 3rem;
+    padding: 15px;
+    letter-spacing: 2px;
+  }
+  
+  .splash-subtitle {
+    font-size: 1.4rem;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    padding: 8px 20px;
+  }
+  
+  .loader {
+    gap: 12px;
+    margin-top: 30px;
+  }
+  
+  .loader::before {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .loader span {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* تأثيرات للشاشات الكبيرة */
+@media (min-width: 1200px) {
+  .splash-title {
+    font-size: 6rem;
+  }
+  
+  .splash-subtitle {
+    font-size: 2rem;
+  }
+}
+
+/* تأثير الخروج */
+.fade-out {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.1);
+}
+
+/* تأثير عند تحميل المحتوى */
+@keyframes content-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.splash-content {
+  animation: content-appear 1.5s ease-out;
 }
