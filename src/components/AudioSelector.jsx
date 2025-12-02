@@ -108,7 +108,6 @@ export default function AudioSelector({ onSelect }) {
       {audioFile && showInfo && (
         <div className="song-info">
           <h3>{songTitle}</h3>
-          <p>{artistName}</p>
           <p>⚡ Type: {songType}</p>
         </div>
       )}
