@@ -794,23 +794,24 @@ const renderVisualizer = () => {
     height: "44px"
   };
 
+
 const visualizerTitleStyle = {
   position: "fixed",
-  top: 200, // تغيير من 20 إلى 15 (أعلى قليلاً)
-  right: 15, // جعله في الزاوية اليمنى دائماً
-  background: "rgba(0,0,0,0.6)",
-  padding: isMobile ? "6px 12px" : "10px 15px", // أصغر padding
-  borderRadius: "15px",
+  top: isMobile ? 20 : 25, // من الأعلى
+  left: "50%", // في المنتصف أفقياً
+  transform: "translateX(-50%)", // لضبط المركز
+  background: "rgba(0,0,0,0.7)",
+  padding: isMobile ? "10px 25px" : "12px 30px",
+  borderRadius: "20px",
   zIndex: 1000,
   color: "white",
-  backdropFilter: "blur(10px)",
-  border: "1px solid rgba(255,255,255,0.15)",
+  backdropFilter: "blur(15px)",
+  border: "1px solid rgba(255,255,255,0.2)",
   textAlign: "center",
-  boxShadow: "0 5px 15px rgba(0,0,0,0.2)",
-  maxWidth: "180px", // تحديد أقصى عرض
-  minWidth: "100px"  // تحديد أدنى عرض
+  boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+  minWidth: isMobile ? "180px" : "220px",
+  whiteSpace: "nowrap"
 };
-
 
 
 
