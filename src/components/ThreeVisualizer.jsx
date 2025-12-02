@@ -646,23 +646,30 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
     }
   };
 
-  const renderVisualizer = () => {
-    const visualizerProps = { frequencyData, amplitude, bass, mid, treble, energy };
-    
-    switch(currentType) {
-      case 'electronic':
-        return <ElectronicVisualizer {...visualizerProps} />;
-      case 'rock':
-        return <RockVisualizer {...visualizerProps} />;
-      case 'poprock':
-        return <PopRockVisualizer {...visualizerProps} />;
-      case 'classical':
-        return <ClassicalVisualizer {...visualizerProps} />;
-      default:
-        return <ElectronicVisualizer {...visualizerProps} />;
-    }
+const renderVisualizer = () => {
+  const visualizerProps = { 
+    frequencyData, 
+    amplitude, 
+    bass, 
+    mid, 
+    treble, 
+    energy,
+    isMobile // إضافة هذا السطر
   };
-
+  
+  switch(currentType) {
+    case 'electronic':
+      return <ElectronicVisualizer {...visualizerProps} />;
+    case 'rock':
+      return <RockVisualizer {...visualizerProps} />;
+    case 'poprock':
+      return <PopRockVisualizer {...visualizerProps} />;
+    case 'classical':
+      return <ClassicalVisualizer {...visualizerProps} />;
+    default:
+      return <ElectronicVisualizer {...visualizerProps} />;
+  }
+};
   const formatTime = (seconds) => {
     if (!seconds || isNaN(seconds)) return "0:00";
     const mins = Math.floor(seconds / 60);
@@ -787,22 +794,25 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
     height: "44px"
   };
 
-  const visualizerTitleStyle = {
-    position: "fixed",
-    top: isMobile ? 20 : 20,
-    right: isMobile ? "auto" : 20,
-    left: isMobile ? 20 : "auto",
-    background: "rgba(0,0,0,0.8)",
-    padding: isMobile ? "12px 20px" : "20px 30px",
-    borderRadius: "20px",
-    zIndex: 1000,
-    color: "white",
-    backdropFilter: "blur(15px)",
-    border: "1px solid rgba(255,255,255,0.15)",
-    textAlign: "center",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
-    width: isMobile ? "calc(100% - 80px)" : "auto"
-  };
+const visualizerTitleStyle = {
+  position: "fixed",
+  top: 15, // تغيير من 20 إلى 15 (أعلى قليلاً)
+  right: 15, // جعله في الزاوية اليمنى دائماً
+  background: "rgba(0,0,0,0.6)",
+  padding: isMobile ? "6px 12px" : "10px 15px", // أصغر padding
+  borderRadius: "15px",
+  zIndex: 1000,
+  color: "white",
+  backdropFilter: "blur(10px)",
+  border: "1px solid rgba(255,255,255,0.15)",
+  textAlign: "center",
+  boxShadow: "0 5px 15px rgba(0,0,0,0.2)",
+  maxWidth: "180px", // تحديد أقصى عرض
+  minWidth: "100px"  // تحديد أدنى عرض
+};
+
+
+
 
   const instructionsStyle = {
     position: "fixed",
@@ -848,11 +858,23 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
 
   return (
     <>
-      <Canvas
-        camera={{ position: [0, 0, 15], fov: isMobile ? 70 : 60 }}
-        style={containerStyle}
-        shadows
-      >
+   <Canvas
+  camera={{ 
+    position: [0, 0, isMobile ? 30 : 15], // زيادة المسافة على الهاتف
+    fov: isMobile ? 50 : 60 // تقليل مجال الرؤية
+  }}
+  style={{
+    position: 'fixed',
+    top: isMobile ? '5%' : 0, // إضافة هوامش علوية على الهاتف
+    left: isMobile ? '5%' : 0, // إضافة هوامش جانبية على الهاتف
+    width: isMobile ? '90%' : '100%', // تقليل العرض لإضافة هوامش
+    height: isMobile ? '90%' : '100%', // تقليل الارتفاع
+    background: '#000',
+    borderRadius: isMobile ? '15px' : '0', // حواف مستديرة على الهاتف
+    border: isMobile ? '1px solid rgba(255,255,255,0.1)' : 'none'
+  }}
+  shadows
+>
         <color attach="background" args={['#000']} />
         
         <ambientLight intensity={0.3} />
@@ -861,18 +883,27 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
         
         {renderVisualizer()}
         
-        <OrbitControls 
-          enableZoom={!isMobile}
-          enablePan={!isMobile}
-          enableRotate={!isMobile}
-          minDistance={3}
-          maxDistance={30}
-          enableDamping
-          dampingFactor={0.05}
-          rotateSpeed={0.5}
-          zoomSpeed={0.8}
-        />
-
+<OrbitControls 
+  enableZoom={true} // تمكين دائماً
+  enablePan={true} // تمكين دائماً
+  enableRotate={true} // تمكين دائماً
+  minDistance={isMobile ? 15 : 3} // مسافة أقل على الهاتف
+  maxDistance={isMobile ? 60 : 30} // مسافة أكثر على الهاتف
+  enableDamping
+  dampingFactor={0.05}
+  rotateSpeed={0.5}
+  zoomSpeed={0.8}
+  // إضافة معالجات للشاشات اللمسية
+  touches={{
+    ONE: THREE.TOUCH.ROTATE,
+    TWO: THREE.TOUCH.DOLLY_PAN
+  }}
+  mouseButtons={{
+    LEFT: THREE.MOUSE.ROTATE,
+    MIDDLE: THREE.MOUSE.DOLLY,
+    RIGHT: THREE.MOUSE.PAN
+  }}
+/>
         <EffectComposer>
           <Bloom
             intensity={bloomIntensity + amplitude}
@@ -956,6 +987,8 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
                   ⏹ {isMobile ? "" : "Arrêter"}
                 </button>
               </div>
+
+              
               
               <div style={{marginBottom: "15px"}}>
                 <div style={{color:"white", fontSize:"13px", marginBottom:"8px", fontWeight:"500"}}>
