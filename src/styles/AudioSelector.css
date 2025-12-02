@@ -1,30 +1,27 @@
-/* AudioSelector.css - النسخة المحسنة */
+/* AudioSelector.css - Responsive Version */
 
-html, body {
+/* Reset and Base Styles */
+* {
   margin: 0;
   padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .audio-selector-container {
   min-height: 100vh;
+  min-height: 100dvh; /* Use dynamic viewport height for mobile */
   background: linear-gradient(135deg, #000428 0%, #004e92 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: white;
-  gap: 30px;
-  padding: 20px;
+  padding: 1rem;
   position: relative;
   overflow: hidden;
   font-family: 'Montserrat', sans-serif;
   width: 100%;
-  box-sizing: border-box;
 }
-
 
 .audio-selector-container::before {
   content: '';
@@ -37,11 +34,12 @@ html, body {
     radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
   animation: pulse 8s ease-in-out infinite;
+  pointer-events: none;
 }
 
+/* Header Styles */
 .audio-selector-container h2 {
-  margin-bottom: 10px;
-  font-size: 2.8rem;
+  font-size: clamp(1.5rem, 5vw, 2.8rem);
   text-align: center;
   background: linear-gradient(90deg, #00ffcc 0%, #00ccff 50%, #ff00ff 100%);
   -webkit-background-clip: text;
@@ -51,27 +49,35 @@ html, body {
   text-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
   position: relative;
   z-index: 2;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+  padding: 0 1rem;
+  width: 100%;
 }
 
 .audio-selector-container h2::after {
   content: '🎵';
   display: block;
-  font-size: 3rem;
-  margin-top: 10px;
+  font-size: clamp(2rem, 6vw, 3rem);
+  margin-top: 0.5rem;
   animation: bounce 2s infinite;
 }
 
+/* Upload Area */
 .upload-area {
-  width: 90%;
+  width: 100%;
   max-width: 600px;
-  height: 300px;
+  min-height: 200px;
+  height: auto;
+  aspect-ratio: 2/1;
+  max-height: 300px;
   border: 3px dashed rgba(0, 255, 255, 0.3);
-  border-radius: 25px;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 1rem;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
@@ -79,6 +85,8 @@ html, body {
   overflow: hidden;
   cursor: pointer;
   z-index: 2;
+  margin: 1rem auto;
+  padding: 1.5rem;
 }
 
 .upload-area:hover {
@@ -95,43 +103,61 @@ html, body {
 }
 
 .upload-icon {
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 8vw, 4rem);
   color: #00ffcc;
   animation: float 3s ease-in-out infinite;
 }
 
 .upload-text {
-  font-size: 1.4rem;
+  font-size: clamp(1rem, 3vw, 1.4rem);
   color: rgba(255, 255, 255, 0.9);
   text-align: center;
   font-weight: 300;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
 }
 
 .upload-subtext {
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
   color: rgba(255, 255, 255, 0.6);
   text-align: center;
+  line-height: 1.3;
 }
 
+/* File Input Button */
 .file-input-container {
   position: relative;
   z-index: 2;
+  width: 100%;
+  max-width: 600px;
+  margin: 1rem auto;
+  display: flex;
+  justify-content: center;
 }
 
 .custom-file-upload {
-  padding: 18px 36px;
-  border-radius: 15px;
+  padding: clamp(0.8rem, 3vw, 1.2rem) clamp(1.5rem, 5vw, 2.5rem);
+  border-radius: 12px;
   background: linear-gradient(135deg, #00ffcc 0%, #00ccff 100%);
   color: #000;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   border: none;
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
   letter-spacing: 0.5px;
   position: relative;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px; /* Minimum touch target size */
 }
 
 .custom-file-upload:hover {
@@ -163,18 +189,22 @@ html, body {
   display: none;
 }
 
+/* Song Info */
 .song-info {
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(15px);
   border-radius: 20px;
-  padding: 30px;
-  width: 90%;
+  padding: clamp(1.5rem, 4vw, 2rem);
+  width: 100%;
   max-width: 500px;
   border: 1px solid rgba(0, 255, 255, 0.2);
   animation: slideUp 0.5s ease-out;
   position: relative;
   overflow: hidden;
   z-index: 2;
+  margin: 1rem auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .song-info::before {
@@ -189,27 +219,31 @@ html, body {
 }
 
 .song-info h3 {
-  font-size: 1.8rem;
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
   color: #00ffcc;
-  margin-bottom: 10px;
+  margin-bottom: 0.5rem;
   font-weight: 600;
+  line-height: 1.3;
+  word-break: break-word;
 }
 
 .song-info p {
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
   color: rgba(255, 255, 255, 0.9);
-  margin: 8px 0;
+  margin: 0.5rem 0;
+  line-height: 1.4;
 }
 
 .type-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
   font-weight: 600;
-  margin-top: 10px;
+  margin-top: 0.5rem;
   animation: pulse 2s infinite;
+  font-size: clamp(0.8rem, 3vw, 1rem);
 }
 
 .type-badge.electronic {
@@ -236,8 +270,19 @@ html, body {
   border: 1px solid #ff5555;
 }
 
+/* Start Button */
+.start-btn-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 600px;
+  margin: 1rem auto;
+  display: flex;
+  justify-content: center;
+}
+
 .start-btn {
-  padding: 20px 45px;
+  padding: clamp(1rem, 4vw, 1.3rem) clamp(1.5rem, 6vw, 2.8rem);
   border-radius: 15px;
   border: none;
   background: linear-gradient(135deg, #00ffcc 0%, #00ccff 100%);
@@ -245,13 +290,19 @@ html, body {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 3.5vw, 1.2rem);
   letter-spacing: 1px;
   position: relative;
   overflow: hidden;
   box-shadow: 0 15px 35px rgba(0, 255, 255, 0.4);
   animation: pulse-glow 2s infinite;
   z-index: 2;
+  min-height: 52px; /* Minimum touch target size */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  max-width: 100%;
 }
 
 .start-btn:hover {
@@ -267,29 +318,46 @@ html, body {
 .start-btn::after {
   content: '✨';
   position: absolute;
-  right: 20px;
-  font-size: 1.5rem;
+  right: 15px;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
   animation: sparkle 2s infinite;
 }
 
+/* Hint Text */
 .drag-hint {
-  font-size: 1rem;
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
   color: rgba(255, 255, 255, 0.5);
   text-align: center;
-  margin-top: 10px;
+  margin-top: 1rem;
   animation: fadeInOut 3s infinite;
   position: relative;
   z-index: 2;
+  width: 100%;
+  max-width: 600px;
+  padding: 0 1rem;
+  line-height: 1.4;
 }
 
+/* Music Notes - Mobile Optimized */
+.music-note {
+  position: absolute;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  opacity: 0;
+  animation: float-note 8s linear infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Wave Container - Mobile Optimized */
 .wave-container {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 100px;
+  height: 60px;
   overflow: hidden;
   z-index: 1;
+  pointer-events: none;
 }
 
 .wave {
@@ -300,28 +368,21 @@ html, body {
   height: 100%;
   background: linear-gradient(90deg, 
     transparent 0%,
-    rgba(0, 255, 255, 0.2) 25%,
-    rgba(255, 0, 255, 0.2) 50%,
-    rgba(0, 255, 255, 0.2) 75%,
+    rgba(0, 255, 255, 0.15) 25%,
+    rgba(255, 0, 255, 0.15) 50%,
+    rgba(0, 255, 255, 0.15) 75%,
     transparent 100%
   );
   animation: wave-animation 10s linear infinite;
 }
 
-.music-note {
-  position: absolute;
-  font-size: 2rem;
-  opacity: 0;
-  animation: float-note 8s linear infinite;
-  z-index: 1;
-}
-
+/* Animations */
 @keyframes float {
   0%, 100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-15px);
+    transform: translateY(-10px);
   }
 }
 
@@ -330,7 +391,7 @@ html, body {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
 }
 
@@ -348,14 +409,14 @@ html, body {
     box-shadow: 0 15px 35px rgba(0, 255, 255, 0.4);
   }
   50% {
-    box-shadow: 0 15px 45px rgba(0, 255, 255, 0.8);
+    box-shadow: 0 15px 45px rgba(0, 255, 255, 0.6);
   }
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -401,74 +462,162 @@ html, body {
 
 @keyframes float-note {
   0% {
-    transform: translateY(100vh) rotate(0deg);
+    transform: translateY(120vh) rotate(0deg);
     opacity: 0;
   }
   10% {
-    opacity: 1;
+    opacity: 0.3;
   }
   90% {
-    opacity: 1;
+    opacity: 0.3;
   }
   100% {
-    transform: translateY(-100px) rotate(360deg);
+    transform: translateY(-50px) rotate(360deg);
     opacity: 0;
   }
 }
 
-/* Responsive Design */
+/* Mobile Specific Optimizations */
 @media (max-width: 768px) {
-  .audio-selector-container h2 {
-    font-size: 2rem;
+  .audio-selector-container {
+    justify-content: flex-start;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    min-height: 100dvh;
   }
   
   .upload-area {
-    height: 250px;
-    width: 95%;
-  }
-  
-  .upload-icon {
-    font-size: 3rem;
-  }
-  
-  .upload-text {
-    font-size: 1.1rem;
+    min-height: 180px;
+    aspect-ratio: 3/2;
+    margin: 1.5rem auto;
+    padding: 1rem;
   }
   
   .custom-file-upload {
-    padding: 15px 30px;
-    font-size: 1rem;
-  }
-  
-  .song-info {
-    padding: 20px;
+    width: 90%;
+    max-width: 300px;
   }
   
   .start-btn {
-    padding: 18px 40px;
-    font-size: 1.1rem;
+    width: 90%;
+    max-width: 300px;
+  }
+  
+  .music-note {
+    font-size: 1.5rem;
+  }
+  
+  /* Reduce animation intensity on mobile */
+  .upload-area:hover {
+    transform: translateY(-2px);
+  }
+  
+  .start-btn:hover {
+    transform: translateY(-3px);
   }
 }
 
 @media (max-width: 480px) {
+  .audio-selector-container {
+    padding: 1rem;
+  }
+  
   .audio-selector-container h2 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
   }
   
   .upload-area {
-    height: 200px;
-    gap: 15px;
+    min-height: 150px;
+    margin: 1rem auto;
+    padding: 0.8rem;
   }
   
-  .upload-icon {
-    font-size: 2.5rem;
+  .upload-text {
+    font-size: 1rem;
+  }
+  
+  .upload-subtext {
+    font-size: 0.8rem;
   }
   
   .custom-file-upload {
-    padding: 12px 24px;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+    min-height: 44px;
   }
   
   .start-btn {
-    padding: 15px 30px;
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+    min-height: 48px;
   }
+  
+  .song-info {
+    padding: 1rem;
+    margin: 0.5rem auto;
+  }
+  
+  .drag-hint {
+    font-size: 0.8rem;
+    padding: 0 0.5rem;
+  }
+  
+  .wave-container {
+    height: 40px;
+  }
+  
+  /* Reduce number of floating notes on very small screens */
+  .music-note:nth-child(n+5) {
+    display: none;
+  }
+}
+
+/* Tablet Landscape */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .audio-selector-container {
+    padding: 1.5rem;
+  }
+  
+  .upload-area {
+    min-height: 200px;
+    margin: 2rem auto;
+  }
+  
+  .audio-selector-container h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Very small screens (old phones) */
+@media (max-width: 320px) {
+  .audio-selector-container h2 {
+    font-size: 1.2rem;
+  }
+  
+  .upload-text {
+    font-size: 0.9rem;
+  }
+  
+  .custom-file-upload span {
+    font-size: 0.8rem;
+  }
+  
+  .start-btn {
+    font-size: 0.9rem;
+    padding: 0.8rem 1.5rem;
+  }
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Accessibility - Focus styles */
+.custom-file-upload:focus,
+.start-btn:focus {
+  outline: 2px solid #00ffcc;
+  outline-offset: 2px;
 }

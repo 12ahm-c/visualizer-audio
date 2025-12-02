@@ -1,4 +1,4 @@
-// AudioSelector.jsx - النسخة المحسنة
+// AudioSelector.jsx - Responsive Version
 import { useState, useRef, useEffect } from "react";
 import "../styles/AudioSelector.css";
 
@@ -11,7 +11,20 @@ export default function AudioSelector({ onSelect }) {
   const [ready, setReady] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [notes, setNotes] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
   const dropRef = useRef(null);
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const div = dropRef.current;
@@ -47,18 +60,22 @@ export default function AudioSelector({ onSelect }) {
   useEffect(() => {
     const createNotes = () => {
       const newNotes = [];
-      for (let i = 0; i < 8; i++) {
+      // Reduce number of notes on mobile
+      const noteCount = isMobile ? 4 : 8;
+      
+      for (let i = 0; i < noteCount; i++) {
         newNotes.push({
           id: i,
           left: Math.random() * 100,
           delay: Math.random() * 10,
-          note: ["🎵", "🎶", "🎧", "🎼", "🎹", "🎷", "🎺", "🎸"][i % 8]
+          note: ["🎵", "🎶", "🎧", "🎼", "🎹", "🎷", "🎺", "🎸"][i % 8],
+          duration: 8 + Math.random() * 4
         });
       }
       setNotes(newNotes);
     };
     createNotes();
-  }, []);
+  }, [isMobile]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -93,13 +110,14 @@ export default function AudioSelector({ onSelect }) {
 
           const channelData = audioBuffer.getChannelData(0);
           let sum = 0;
-          for (let i = 0; i < channelData.length; i += 1000) {
+          const step = Math.max(1, Math.floor(channelData.length / 1000));
+          for (let i = 0; i < channelData.length; i += step) {
             sum += channelData[i] * channelData[i];
           }
-          const rms = Math.sqrt(sum / (channelData.length / 1000));
+          const rms = Math.sqrt(sum / (channelData.length / step));
 
           let peaks = 0;
-          for (let i = 1; i < channelData.length; i++) {
+          for (let i = 1; i < channelData.length; i += 10) { // Skip some samples for performance
             if (channelData[i] > 0.9 && channelData[i - 1] <= 0.9) peaks++;
           }
           const durationSec = audioBuffer.duration;
@@ -147,6 +165,15 @@ export default function AudioSelector({ onSelect }) {
     return icons[type] || "🎵";
   };
 
+  // Format file size
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+  };
+
   return (
     <div className="audio-selector-container" ref={dropRef}>
       {/* نوتات موسيقية عائمة */}
@@ -157,7 +184,7 @@ export default function AudioSelector({ onSelect }) {
           style={{
             left: `${note.left}%`,
             animationDelay: `${note.delay}s`,
-            animationDuration: `${8 + note.id * 2}s`
+            animationDuration: `${note.duration}s`
           }}
         >
           {note.note}
@@ -171,7 +198,10 @@ export default function AudioSelector({ onSelect }) {
 
       <h2>🎵 Vivez la musique autrement</h2>
 
-      <div className={`upload-area ${dragOver ? 'drag-over' : ''}`}>
+      <div 
+        className={`upload-area ${dragOver ? 'drag-over' : ''}`}
+        onClick={() => document.querySelector('.custom-file-upload input')?.click()}
+      >
         <div className="upload-icon">
           {dragOver ? "🎧" : "🎵"}
         </div>
@@ -194,7 +224,7 @@ export default function AudioSelector({ onSelect }) {
         <div className="song-info">
           <h3>{songTitle}</h3>
           <p>🎤 {artistName}</p>
-          <p>📊 Taille: {(audioFile.size / (1024 * 1024)).toFixed(2)} MB</p>
+          <p>📊 Taille: {formatFileSize(audioFile.size)}</p>
           <p>🎯 Type détecté:</p>
           <div className={`type-badge ${songType}`}>
             {getTypeIcon(songType)} {getTypeLabel(songType)}
@@ -203,9 +233,15 @@ export default function AudioSelector({ onSelect }) {
       )}
 
       {ready && (
-        <button className="start-btn" onClick={handleGoVisualizer}>
-          Démarrer la visualisation
-        </button>
+        <div className="start-btn-container">
+          <button 
+            className="start-btn" 
+            onClick={handleGoVisualizer}
+            aria-label="Démarrer la visualisation"
+          >
+            Démarrer la visualisation
+          </button>
+        </div>
       )}
 
       {!audioFile && (
