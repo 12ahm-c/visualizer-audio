@@ -794,12 +794,10 @@ const renderVisualizer = () => {
     height: "44px"
   };
 
-
 const visualizerTitleStyle = {
   position: "fixed",
-  top: isMobile ? 20 : 30, // من الأعلى
-  left: "50%", // في المنتصف أفقياً
-  transform: "translateX(-50%)", // لضبط المركز
+  bottom: isMobile ? 20 : 30,   // في الأسفل
+  right: isMobile ? 15 : 30,    // من اليمين
   background: "rgba(0,0,0,0.7)",
   padding: isMobile ? "10px 25px" : "12px 30px",
   borderRadius: "20px",
@@ -812,7 +810,6 @@ const visualizerTitleStyle = {
   minWidth: isMobile ? "180px" : "220px",
   whiteSpace: "nowrap"
 };
-
 
 
   const instructionsStyle = {
@@ -1005,10 +1002,10 @@ const visualizerTitleStyle = {
                       }}
                       style={buttonStyle(currentType === t, t)}
                     >
-                      {t === 'electronic' ? '⚡' :
-                       t === 'rock' ? '🤘' :
-                       t === 'poprock' ? '🌟' :
-                       '🎻'}
+                      {t === 'electronic' ? '' :
+                       t === 'rock' ? '' :
+                       t === 'poprock' ? '' :
+                       ''}
                       {!isMobile && (
                         t === 'electronic' ? 'Électronique' :
                         t === 'rock' ? 'Rock' :
@@ -1143,6 +1140,7 @@ const visualizerTitleStyle = {
 
       <div style={visualizerTitleStyle}>
         <div style={{ 
+            
           fontSize: isMobile ? "18px" : "26px", 
           fontWeight:"bold",
           textTransform:"uppercase",
@@ -1158,6 +1156,8 @@ const visualizerTitleStyle = {
           {currentType}
         </div>
         <div style={{ 
+            
+            
           fontSize: isMobile ? "11px" : "13px", 
           opacity:0.8, 
           letterSpacing:"1px",
