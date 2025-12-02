@@ -797,7 +797,7 @@ const renderVisualizer = () => {
 
 const visualizerTitleStyle = {
   position: "fixed",
-  top: isMobile ? 20 : 25, // من الأعلى
+  top: isMobile ? 20 : 30, // من الأعلى
   left: "50%", // في المنتصف أفقياً
   transform: "translateX(-50%)", // لضبط المركز
   background: "rgba(0,0,0,0.7)",
