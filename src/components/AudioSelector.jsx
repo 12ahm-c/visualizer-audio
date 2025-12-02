@@ -186,7 +186,7 @@ export default function AudioSelector({ onSelect }) {
       <div className="file-input-container">
         <label className="custom-file-upload">
           <span>📁 Sélectionner un fichier audio</span>
-          <input type="file" accept="audio/*" onChange={handleFileChange} />
+          <input type="file" accept="audio/*,.m4a,.caf,.mp3" onChange={handleFileChange} />
         </label>
       </div>
 
