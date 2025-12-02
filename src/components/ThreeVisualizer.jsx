@@ -358,7 +358,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
   const [dustParticles, setDustParticles] = useState([]);
 
   useEffect(() => {
-    // نوتات ذهبية طائرة ببطء
     const notes = [];
     for (let i = 0; i < 60; i++) {
       notes.push({
@@ -371,7 +370,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
     }
     setGoldenNotes(notes);
 
-    // جسيمات غبار ذهبي خفيفة
     const dust = [];
     for (let i = 0; i < 300; i++) {
       dust.push({
@@ -385,13 +383,9 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
 
-    // دوران بطيء مهيب للمشهد كامل
     groupRef.current.rotation.y = time * 0.03;
-
-    // نبض خفيف مع الإيقاع
     groupRef.current.position.y = Math.sin(time * 0.8) * 0.15 * mid;
 
-    // الشمعدانات الذهبية تتألق مع الطاقة
     chandeliersRef.current.forEach((chandelier, i) => {
       if (!chandelier) return;
       chandelier.rotation.y = time * 0.2 + i;
@@ -399,7 +393,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
       chandelier.scale.setScalar(1 + energy * 0.5);
     });
 
-    // النوتات الذهبية تتحرك بأناقة وتتفاعل مع الموسيقى
     goldenNotes.forEach((note, i) => {
       const mesh = particlesRef.current[i];
       if (!mesh) return;
@@ -415,7 +408,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
       mesh.scale.setScalar(note.size * (1 + energy * 2 + amplitude));
     });
 
-    // غبار ذهبي يطفو ببطء
     dustParticles.forEach((p, i) => {
       const mesh = particlesRef.current[100 + i];
       if (!mesh) return;
@@ -424,7 +416,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
       mesh.position.set(...p.position);
     });
 
-    // الأرضية الرخامية تعكس الضوء بنبض خفيف
     if (floorRef.current) {
       floorRef.current.material.emissiveIntensity = 0.3 + energy * 1.5;
     }
@@ -433,13 +424,11 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
   return (
     <group ref={groupRef}>
 
-      {/* خلفية سوداء مخملية فاخرة */}
       <mesh>
         <sphereGeometry args={[80, 64, 64]} />
         <meshBasicMaterial color="#000011" side={THREE.BackSide} />
       </mesh>
 
-      {/* أرضية رخامية أنيقة مع عروق ذهبية */}
       <mesh ref={floorRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, -3, 0]} receiveShadow>
         <circleGeometry args={[30, 128]} />
         <meshPhysicalMaterial
@@ -454,7 +443,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
         />
       </mesh>
 
-      {/* أعمدة رخامية كلاسيكية حول القاعة */}
       {[...Array(12)].map((_, i) => {
         const angle = (i / 12) * Math.PI * 2;
         const x = Math.cos(angle) * 18;
@@ -473,7 +461,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
         );
       })}
 
-      {/* تاج ذهبي للأعمدة */}
       {[...Array(12)].map((_, i) => {
         const angle = (i / 12) * Math.PI * 2;
         const x = Math.cos(angle) * 18;
@@ -492,7 +479,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
         );
       })}
 
-      {/* شمعدانات ذهبية معلقة (الجوهرة الحقيقية) */}
       {[0, 1, 2].map((i) => (
         <group key={`chandelier-${i}`} ref={el => chandeliersRef.current[i] = el} position={[0, 12, 0]}>
           <mesh rotation={[0, (i * Math.PI * 2) / 3, 0]}>
@@ -505,7 +491,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
               roughness={0.05}
             />
           </mesh>
-          {/* شموع صغيرة */}
           {[...Array(24)].map((_, j) => {
             const a = (j / 24) * Math.PI * 2;
             const r = 4 + i * 1.5;
@@ -523,7 +508,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
         </group>
       ))}
 
-      {/* نوتات ذهبية لامعة طائرة */}
       {goldenNotes.map((note, i) => (
         <mesh
           key={`note-${i}`}
@@ -543,7 +527,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
         </mesh>
       ))}
 
-      {/* غبار ذهبي خفيف جداً */}
       {dustParticles.map((p, i) => (
         <mesh
           key={`dust-${i}`}
@@ -559,7 +542,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
         </mesh>
       ))}
 
-      {/* كرة مركزية كبيرة من الضوء النقي */}
       <mesh position={[0, 4, 0]}>
         <sphereGeometry args={[3, 64, 64]} />
         <meshPhysicalMaterial
@@ -575,7 +557,6 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
         />
       </mesh>
 
-      {/* إضاءة دافئة فاخرة */}
       <ambientLight intensity={0.4} color="#ffddaa" />
       <pointLight position={[0, 15, 0]} intensity={8} color="#ffaa00" distance={40} decay={1} />
       <pointLight position={[10, 10, 10]} intensity={3} color="#ffeedd" />
@@ -583,6 +564,7 @@ const ClassicalVisualizer = ({ frequencyData, amplitude, bass, mid, treble, ener
     </group>
   );
 };
+
 export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
   const [audioObj, setAudioObj] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
@@ -592,8 +574,21 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
   const [currentType, setCurrentType] = useState(type);
   const [showControls, setShowControls] = useState(true);
   const [bloomIntensity, setBloomIntensity] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const { setupAudio, frequencyData, amplitude, audioContext, bass, mid, treble, energy } = useAudioAnalyzer();
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!audioFile) return;
@@ -668,16 +663,6 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
     }
   };
 
-  const getTypeColor = (type) => {
-    switch(type) {
-      case 'electronic': return '#00ffcc';
-      case 'rock': return '#ff5555';
-      case 'poprock': return '#ff66cc';
-      case 'classical': return '#88aaff';
-      default: return '#ffffff';
-    }
-  };
-
   const formatTime = (seconds) => {
     if (!seconds || isNaN(seconds)) return "0:00";
     const mins = Math.floor(seconds / 60);
@@ -685,18 +670,187 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Responsive styles
+  const containerStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: '#000'
+  };
+
+  const controlsStyle = {
+    position: isMobile ? "fixed" : "fixed",
+    top: isMobile ? 0 : 20,
+    left: isMobile ? 0 : 20,
+    right: isMobile ? 0 : "auto",
+    bottom: isMobile ? "auto" : "auto",
+    zIndex: 2,
+    display: "flex",
+    flexDirection: "column",
+    gap: isMobile ? "8px" : "12px",
+    background: "rgba(0,0,0,0.92)",
+    padding: isMobile ? "15px" : "20px",
+    borderRadius: isMobile ? "0 0 20px 20px" : "20px",
+    backdropFilter: "blur(15px)",
+    border: isMobile ? "none" : "1px solid rgba(255,255,255,0.15)",
+    minWidth: isMobile ? "100%" : "320px",
+    width: isMobile ? "100%" : "auto",
+    maxWidth: isMobile ? "100%" : "400px",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+    transition: "all 0.3s ease",
+    maxHeight: isMobile ? (mobileMenuOpen ? "85vh" : "60px") : "auto",
+    overflow: isMobile ? "auto" : "visible"
+  };
+
+  const headerStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '10px'
+  };
+
+  const titleStyle = {
+    margin: 0,
+    color: "white",
+    fontSize: isMobile ? "0.9rem" : "1.1rem",
+    fontWeight: "bold"
+  };
+
+  const buttonGroupStyle = {
+    display: "flex",
+    gap: isMobile ? "6px" : "10px",
+    marginBottom: isMobile ? "10px" : "15px",
+    flexWrap: "wrap"
+  };
+
+  const buttonStyle = (isActive = false, type = 'default') => {
+    const baseStyle = {
+      padding: isMobile ? "10px 15px" : "12px 20px",
+      border: "none",
+      borderRadius: isMobile ? "10px" : "12px",
+      color: "white",
+      cursor: "pointer",
+      flex: isMobile ? "1" : "0",
+      minWidth: isMobile ? "calc(50% - 6px)" : "70px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "8px",
+      fontWeight: "bold",
+      fontSize: isMobile ? "12px" : "14px",
+      transition: "all 0.3s",
+      textAlign: "center"
+    };
+
+    if (isActive) {
+      const typeColors = {
+        electronic: { gradient: "linear-gradient(135deg, #00ffcc, #0099cc)", shadow: "rgba(0,255,204,0.4)", border: "#00ffcc" },
+        rock: { gradient: "linear-gradient(135deg, #ff5555, #cc0000)", shadow: "rgba(255,85,85,0.4)", border: "#ff5555" },
+        poprock: { gradient: "linear-gradient(135deg, #ff66cc, #cc3399)", shadow: "rgba(255,102,204,0.4)", border: "#ff66cc" },
+        classical: { gradient: "linear-gradient(135deg, #88aaff, #5566cc)", shadow: "rgba(136,170,255,0.4)", border: "#88aaff" }
+      };
+      const colors = typeColors[type] || typeColors.electronic;
+      return {
+        ...baseStyle,
+        background: colors.gradient,
+        border: `1px solid ${colors.border}`,
+        boxShadow: `0 5px 15px ${colors.shadow}`
+      };
+    }
+
+    return {
+      ...baseStyle,
+      background: "rgba(255,255,255,0.07)",
+      border: "1px solid rgba(255,255,255,0.1)",
+      boxShadow: "none"
+    };
+  };
+
+  const mobileToggleButtonStyle = {
+    position: "fixed",
+    top: 20,
+    right: 20,
+    zIndex: 1000,
+    padding: "12px",
+    background: "rgba(0,0,0,0.8)",
+    border: "1px solid rgba(255,255,255,0.2)",
+    borderRadius: "50%",
+    color: "white",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backdropFilter: "blur(10px)",
+    width: "44px",
+    height: "44px"
+  };
+
+  const visualizerTitleStyle = {
+    position: "fixed",
+    top: isMobile ? 20 : 20,
+    right: isMobile ? "auto" : 20,
+    left: isMobile ? 20 : "auto",
+    background: "rgba(0,0,0,0.8)",
+    padding: isMobile ? "12px 20px" : "20px 30px",
+    borderRadius: "20px",
+    zIndex: 1000,
+    color: "white",
+    backdropFilter: "blur(15px)",
+    border: "1px solid rgba(255,255,255,0.15)",
+    textAlign: "center",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+    width: isMobile ? "calc(100% - 80px)" : "auto"
+  };
+
+  const instructionsStyle = {
+    position: "fixed",
+    bottom: isMobile ? 100 : 30,
+    left: "50%",
+    transform: "translateX(-50%)",
+    background: "rgba(0,0,0,0.7)",
+    padding: isMobile ? "10px 15px" : "15px 30px",
+    borderRadius: "25px",
+    color: "white",
+    fontSize: isMobile ? "12px" : "14px",
+    textAlign: "center",
+    backdropFilter: "blur(10px)",
+    border: "1px solid rgba(255,255,255,0.15)",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    maxWidth: isMobile ? "90%" : "auto",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
+  };
+
+  const progressStyle = {
+    position: "fixed",
+    bottom: isMobile ? 140 : 80,
+    left: "50%",
+    transform: "translateX(-50%)",
+    background: "rgba(0,0,0,0.6)",
+    padding: isMobile ? "8px 15px" : "10px 25px",
+    borderRadius: "20px",
+    color: "white",
+    fontSize: isMobile ? "12px" : "14px",
+    backdropFilter: "blur(10px)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    display: "flex",
+    alignItems: "center",
+    gap: isMobile ? "10px" : "15px",
+    width: isMobile ? "90%" : "auto",
+    justifyContent: "center"
+  };
+
   return (
     <>
       <Canvas
-        camera={{ position: [0, 0, 15], fov: 60 }}
-        style={{ 
-          background: '#000',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%'
-        }}
+        camera={{ position: [0, 0, 15], fov: isMobile ? 70 : 60 }}
+        style={containerStyle}
         shadows
       >
         <color attach="background" args={['#000']} />
@@ -708,9 +862,9 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
         {renderVisualizer()}
         
         <OrbitControls 
-          enableZoom={true} 
-          enablePan={true} 
-          enableRotate={true}
+          enableZoom={!isMobile}
+          enablePan={!isMobile}
+          enableRotate={!isMobile}
           minDistance={3}
           maxDistance={30}
           enableDamping
@@ -738,40 +892,19 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
       </Canvas>
 
       {showControls && (
-        <div style={{
-          position:"fixed", 
-          top:20, 
-          left:20, 
-          zIndex:2, 
-          display:"flex", 
-          flexDirection:"column",
-          gap:"12px", 
-          background:"rgba(0,0,0,0.85)", 
-          padding:"20px", 
-          borderRadius:"20px",
-          backdropFilter: "blur(15px)",
-          border: "1px solid rgba(255,255,255,0.15)",
-          minWidth: "320px",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
-          transition: "all 0.3s ease"
-        }}>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '10px'
-          }}>
-            <h3 style={{margin:0, color:"white", fontSize:"1.1rem", fontWeight:"bold"}}>
-              🎛️ Contrôle Avancé
+        <div style={controlsStyle}>
+          <div style={headerStyle}>
+            <h3 style={titleStyle}>
+              🎛️ {isMobile ? "Contrôles" : "Contrôle Avancé"}
             </h3>
             <button 
-              onClick={() => setShowControls(false)}
+              onClick={() => isMobile ? setMobileMenuOpen(!mobileMenuOpen) : setShowControls(false)}
               style={{
                 background: "rgba(255,255,255,0.1)",
                 border: "none",
                 borderRadius: "50%",
-                width: "30px",
-                height: "30px",
+                width: isMobile ? "30px" : "30px",
+                height: isMobile ? "30px" : "30px",
                 color: "white",
                 cursor: "pointer",
                 fontSize: "14px",
@@ -780,208 +913,175 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
                 justifyContent: "center"
               }}
             >
-              ×
+              {isMobile ? (mobileMenuOpen ? "↑" : "↓") : "×"}
             </button>
           </div>
           
-          <div style={{
-            background: "linear-gradient(90deg, #ff0000, #ffff00, #00ff00)",
-            height: "8px",
-            borderRadius: "4px",
-            overflow: "hidden",
-            marginBottom: "15px"
-          }}>
-            <div style={{
-              width: `${energy * 100}%`,
-              height: "100%",
-              background: "rgba(255,255,255,0.3)",
-              transition: "width 0.1s"
-            }} />
-          </div>
-          
-          <div style={{display:"flex", gap:"10px", marginBottom:"15px"}}>
-            <button 
-              onClick={togglePlay}
-              style={{
-                padding:"12px 20px",
-                background: isPlaying ? "linear-gradient(135deg, #ff9800, #ff5722)" : "linear-gradient(135deg, #4CAF50, #2E7D32)",
-                border:"none",
-                borderRadius:"12px",
-                color:"white",
-                cursor:"pointer",
-                flex:"1",
-                display:"flex",
-                alignItems:"center",
-                justifyContent:"center",
-                gap:"8px",
-                fontWeight:"bold",
-                fontSize:"14px",
-                transition: "all 0.3s",
-                boxShadow: isPlaying ? "0 5px 15px rgba(255,152,0,0.4)" : "0 5px 15px rgba(76,175,80,0.4)"
-              }}
-            >
-              {isPlaying ? "⏸ Pause" : "▶ Jouer"}
-            </button>
-            <button 
-              onClick={stopAudio}
-              style={{
-                padding:"12px 20px",
-                background:"linear-gradient(135deg, #f44336, #d32f2f)",
-                border:"none",
-                borderRadius:"12px",
-                color:"white",
-                cursor:"pointer",
-                flex:"1",
-                display:"flex",
-                alignItems:"center",
-                justifyContent:"center",
-                gap:"8px",
-                fontWeight:"bold",
-                fontSize:"14px",
-                transition: "all 0.3s",
-                boxShadow: "0 5px 15px rgba(244,67,54,0.4)"
-              }}
-            >
-              ⏹ Arrêter
-            </button>
-          </div>
-          
-          <div style={{marginBottom:"15px"}}>
-            <div style={{color:"white", fontSize:"13px", marginBottom:"8px", fontWeight:"500"}}>
-              🎨 Mode de Visualisation
-            </div>
-            <div style={{display:"flex", gap:"8px", flexWrap:"wrap"}}>
-              {['electronic', 'rock', 'poprock', 'classical'].map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setCurrentType(t)}
+          {(isMobile && mobileMenuOpen) || !isMobile ? (
+            <>
+              <div style={{
+                background: "linear-gradient(90deg, #ff0000, #ffff00, #00ff00)",
+                height: "6px",
+                borderRadius: "3px",
+                overflow: "hidden",
+                marginBottom: "15px"
+              }}>
+                <div style={{
+                  width: `${energy * 100}%`,
+                  height: "100%",
+                  background: "rgba(255,255,255,0.3)",
+                  transition: "width 0.1s"
+                }} />
+              </div>
+              
+              <div style={buttonGroupStyle}>
+                <button 
+                  onClick={togglePlay}
                   style={{
-                    padding:"10px 15px",
-                    background: currentType === t ? 
-                      t === 'electronic' ? "linear-gradient(135deg, #00ffcc, #0099cc)" :
-                      t === 'rock' ? "linear-gradient(135deg, #ff5555, #cc0000)" :
-                      t === 'poprock' ? "linear-gradient(135deg, #ff66cc, #cc3399)" :
-                      "linear-gradient(135deg, #88aaff, #5566cc)" :
-                      "rgba(255,255,255,0.07)",
-                    border:`1px solid ${currentType === t ? 
-                      t === 'electronic' ? "#00ffcc" :
-                      t === 'rock' ? "#ff5555" :
-                      t === 'poprock' ? "#ff66cc" :
-                      "#88aaff" : "rgba(255,255,255,0.1)"}`,
-                    borderRadius:"10px",
-                    color:"white",
-                    cursor:"pointer",
-                    flex:"1",
-                    minWidth:"70px",
-                    transition:"all 0.3s",
-                    fontSize:"12px",
-                    fontWeight:"500",
-                    letterSpacing:"0.5px"
+                    ...buttonStyle(),
+                    background: isPlaying ? "linear-gradient(135deg, #ff9800, #ff5722)" : "linear-gradient(135deg, #4CAF50, #2E7D32)",
+                    boxShadow: isPlaying ? "0 5px 15px rgba(255,152,0,0.4)" : "0 5px 15px rgba(76,175,80,0.4)"
                   }}
                 >
-                  {t === 'electronic' ? '⚡ Électronique' :
-                   t === 'rock' ? '🤘 Rock' :
-                   t === 'poprock' ? '🌟 Pop/Rock' :
-                   '🎻 Classique'}
+                  {isPlaying ? "⏸" : "▶️"} {isMobile ? "" : isPlaying ? "Pause" : "Jouer"}
                 </button>
-              ))}
-            </div>
-          </div>
-          
-          <div style={{marginBottom:"15px"}}>
-            <div style={{display:"flex", justifyContent:"space-between", marginBottom:"8px"}}>
-              <span style={{color:"white", fontSize:"13px", fontWeight:"500"}}>🔊 Volume</span>
-              <span style={{color:"#4CAF50", fontSize:"13px", fontWeight:"bold"}}>{Math.round(volume * 100)}%</span>
-            </div>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={changeVolume}
-              style={{
-                width:"100%",
-                height:"6px",
-                background: "linear-gradient(90deg, #4CAF50, #ff9800, #f44336)",
-                borderRadius:"3px",
-                outline:"none"
-              }}
-            />
-          </div>
-          
-          <div style={{marginBottom:"15px"}}>
-            <div style={{display:"flex", justifyContent:"space-between", marginBottom:"8px"}}>
-              <span style={{color:"white", fontSize:"13px", fontWeight:"500"}}>✨ Intensité Bloom</span>
-              <span style={{color:"#ffcc00", fontSize:"13px", fontWeight:"bold"}}>{bloomIntensity.toFixed(1)}</span>
-            </div>
-            <input
-              type="range"
-              min="0.1"
-              max="3"
-              step="0.1"
-              value={bloomIntensity}
-              onChange={(e) => setBloomIntensity(parseFloat(e.target.value))}
-              style={{
-                width:"100%",
-                height:"6px",
-                background: "linear-gradient(90deg, #000, #ffcc00)",
-                borderRadius:"3px",
-                outline:"none"
-              }}
-            />
-          </div>
-          
-          <div style={{
-            padding:"15px",
-            background:"rgba(255,255,255,0.05)",
-            borderRadius:"12px",
-            border:"1px solid rgba(255,255,255,0.08)"
-          }}>
-            <div style={{
-              display:"grid",
-              gridTemplateColumns:"repeat(2, 1fr)",
-              gap:"10px",
-              marginBottom:"10px"
-            }}>
-              <MetricItem label="⚡ Énergie" value={energy.toFixed(3)} color="#00ffcc" />
-              <MetricItem label="🔊 Amplitude" value={amplitude.toFixed(3)} color="#4CAF50" />
-              <MetricItem label="🎵 Basses" value={bass.toFixed(3)} color="#ff5555" />
-              <MetricItem label="🎵 Mids" value={mid.toFixed(3)} color="#55ff55" />
-              <MetricItem label="🎵 Aigus" value={treble.toFixed(3)} color="#5555ff" />
-              <MetricItem label="🎯 Précision" value={`${(frequencyData.length/256*100).toFixed(0)}%`} color="#ffcc00" />
-            </div>
-            
-            <div style={{
-              display:"flex",
-              gap:"4px",
-              height:"6px",
-              marginTop:"5px"
-            }}>
-              {Array.from({length: 20}).map((_, i) => {
-                const value = frequencyData[i * 12] / 255;
-                return (
-                  <div 
-                    key={i}
-                    style={{
-                      flex:"1",
-                      height:"100%",
-                      background: `linear-gradient(to top, 
-                        ${i < 5 ? '#ff5555' : i < 10 ? '#55ff55' : '#5555ff'}, 
-                        ${i < 5 ? '#ff0000' : i < 10 ? '#00ff00' : '#0000ff'})`,
-                      borderRadius:"2px",
-                      transform: `scaleY(${value})`,
-                      transition: "transform 0.05s"
-                    }}
-                  />
-                );
-              })}
-            </div>
-          </div>
+                <button 
+                  onClick={stopAudio}
+                  style={{
+                    ...buttonStyle(),
+                    background: "linear-gradient(135deg, #f44336, #d32f2f)",
+                    boxShadow: "0 5px 15px rgba(244,67,54,0.4)"
+                  }}
+                >
+                  ⏹ {isMobile ? "" : "Arrêter"}
+                </button>
+              </div>
+              
+              <div style={{marginBottom: "15px"}}>
+                <div style={{color:"white", fontSize:"13px", marginBottom:"8px", fontWeight:"500"}}>
+                  🎨 {isMobile ? "Mode" : "Mode de Visualisation"}
+                </div>
+                <div style={{display:"grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(2, 1fr)", gap:"8px"}}>
+                  {['electronic', 'rock', 'poprock', 'classical'].map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => {
+                        setCurrentType(t);
+                        if (isMobile) setMobileMenuOpen(false);
+                      }}
+                      style={buttonStyle(currentType === t, t)}
+                    >
+                      {t === 'electronic' ? '⚡' :
+                       t === 'rock' ? '🤘' :
+                       t === 'poprock' ? '🌟' :
+                       '🎻'}
+                      {!isMobile && (
+                        t === 'electronic' ? 'Électronique' :
+                        t === 'rock' ? 'Rock' :
+                        t === 'poprock' ? 'Pop/Rock' :
+                        'Classique'
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              
+              <div style={{marginBottom:"15px"}}>
+                <div style={{display:"flex", justifyContent:"space-between", marginBottom:"8px"}}>
+                  <span style={{color:"white", fontSize:"13px", fontWeight:"500"}}>🔊 Volume</span>
+                  <span style={{color:"#4CAF50", fontSize:"13px", fontWeight:"bold"}}>{Math.round(volume * 100)}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={volume}
+                  onChange={changeVolume}
+                  style={{
+                    width:"100%",
+                    height:"6px",
+                    background: "linear-gradient(90deg, #4CAF50, #ff9800, #f44336)",
+                    borderRadius:"3px",
+                    outline:"none"
+                  }}
+                />
+              </div>
+              
+              <div style={{marginBottom:"15px"}}>
+                <div style={{display:"flex", justifyContent:"space-between", marginBottom:"8px"}}>
+                  <span style={{color:"white", fontSize:"13px", fontWeight:"500"}}>✨ {isMobile ? "Bloom" : "Intensité Bloom"}</span>
+                  <span style={{color:"#ffcc00", fontSize:"13px", fontWeight:"bold"}}>{bloomIntensity.toFixed(1)}</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.1"
+                  max="3"
+                  step="0.1"
+                  value={bloomIntensity}
+                  onChange={(e) => setBloomIntensity(parseFloat(e.target.value))}
+                  style={{
+                    width:"100%",
+                    height:"6px",
+                    background: "linear-gradient(90deg, #000, #ffcc00)",
+                    borderRadius:"3px",
+                    outline:"none"
+                  }}
+                />
+              </div>
+              
+              <div style={{
+                padding: isMobile ? "10px" : "15px",
+                background:"rgba(255,255,255,0.05)",
+                borderRadius:"12px",
+                border:"1px solid rgba(255,255,255,0.08)"
+              }}>
+                <div style={{
+                  display:"grid",
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                  gap: isMobile ? "6px" : "10px",
+                  marginBottom:"10px"
+                }}>
+                  <MetricItem label="⚡ Énergie" value={energy.toFixed(3)} color="#00ffcc" isMobile={isMobile} />
+                  <MetricItem label="🔊 Amplitude" value={amplitude.toFixed(3)} color="#4CAF50" isMobile={isMobile} />
+                  <MetricItem label="🎵 Basses" value={bass.toFixed(3)} color="#ff5555" isMobile={isMobile} />
+                  <MetricItem label="🎵 Mids" value={mid.toFixed(3)} color="#55ff55" isMobile={isMobile} />
+                  <MetricItem label="🎵 Aigus" value={treble.toFixed(3)} color="#5555ff" isMobile={isMobile} />
+                  <MetricItem label="🎯 Précision" value={`${(frequencyData.length/256*100).toFixed(0)}%`} color="#ffcc00" isMobile={isMobile} />
+                </div>
+                
+                <div style={{
+                  display:"flex",
+                  gap:"4px",
+                  height:"6px",
+                  marginTop:"5px"
+                }}>
+                  {Array.from({length: isMobile ? 10 : 20}).map((_, i) => {
+                    const value = frequencyData[i * (isMobile ? 24 : 12)] / 255;
+                    return (
+                      <div 
+                        key={i}
+                        style={{
+                          flex:"1",
+                          height:"100%",
+                          background: `linear-gradient(to top, 
+                            ${i < (isMobile ? 3 : 5) ? '#ff5555' : i < (isMobile ? 6 : 10) ? '#55ff55' : '#5555ff'}, 
+                            ${i < (isMobile ? 3 : 5) ? '#ff0000' : i < (isMobile ? 6 : 10) ? '#00ff00' : '#0000ff'})`,
+                          borderRadius:"2px",
+                          transform: `scaleY(${value})`,
+                          transition: "transform 0.05s"
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          ) : null}
         </div>
       )}
 
-      {!showControls && (
+      {!showControls && !isMobile && (
         <button
           onClick={() => setShowControls(true)}
           style={{
@@ -1007,25 +1107,12 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
         </button>
       )}
 
-      <div style={{
-        position:"fixed",
-        top:20,
-        right:20,
-        background:"rgba(0,0,0,0.8)",
-        padding:"20px 30px",
-        borderRadius:"20px",
-        zIndex:1000,
-        color:"white",
-        backdropFilter: "blur(15px)",
-        border: "1px solid rgba(255,255,255,0.15)",
-        textAlign:"center",
-        boxShadow: "0 10px 30px rgba(0,0,0,0.3)"
-      }}>
+      <div style={visualizerTitleStyle}>
         <div style={{ 
-          fontSize:"26px", 
+          fontSize: isMobile ? "18px" : "26px", 
           fontWeight:"bold",
           textTransform:"uppercase",
-          letterSpacing:"3px",
+          letterSpacing: isMobile ? "1px" : "3px",
           background: currentType === 'electronic' ? "linear-gradient(45deg, #00ffcc, #0099cc)" :
                      currentType === 'rock' ? "linear-gradient(45deg, #ff5555, #cc0000)" :
                      currentType === 'poprock' ? "linear-gradient(45deg, #ff66cc, #cc3399)" :
@@ -1037,7 +1124,7 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
           {currentType}
         </div>
         <div style={{ 
-          fontSize:"13px", 
+          fontSize: isMobile ? "11px" : "13px", 
           opacity:0.8, 
           letterSpacing:"1px",
           background: "rgba(255,255,255,0.1)",
@@ -1052,49 +1139,17 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
         </div>
       </div>
 
-      <div style={{
-        position:"fixed",
-        bottom:30,
-        left:"50%",
-        transform:"translateX(-50%)",
-        background:"rgba(0,0,0,0.7)",
-        padding:"15px 30px",
-        borderRadius:"25px",
-        color:"white",
-        fontSize:"14px",
-        textAlign:"center",
-        backdropFilter: "blur(10px)",
-        border: "1px solid rgba(255,255,255,0.15)",
-        boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
-        display:"flex",
-        alignItems:"center",
-        gap:"15px"
-      }}>
+      <div style={instructionsStyle}>
         <span style={{opacity:0.8}}>🎮</span>
-        <span>Rotation: Bouton souris • Zoom: Molette • Déplacer: Shift + souris</span>
+        <span>{isMobile ? "Touch for controls" : "Rotation: Bouton souris • Zoom: Molette • Déplacer: Shift + souris"}</span>
         <span style={{opacity:0.8}}>✨</span>
       </div>
 
       {audioObj && (
-        <div style={{
-          position:"fixed",
-          bottom:80,
-          left:"50%",
-          transform:"translateX(-50%)",
-          background:"rgba(0,0,0,0.6)",
-          padding:"10px 25px",
-          borderRadius:"20px",
-          color:"white",
-          fontSize:"14px",
-          backdropFilter: "blur(10px)",
-          border: "1px solid rgba(255,255,255,0.1)",
-          display:"flex",
-          alignItems:"center",
-          gap:"15px"
-        }}>
+        <div style={progressStyle}>
           <span>⏱️ {formatTime(audioObj.currentTime)}</span>
           <div style={{
-            width:"200px",
+            width: isMobile ? "150px" : "200px",
             height:"4px",
             background:"rgba(255,255,255,0.1)",
             borderRadius:"2px",
@@ -1123,18 +1178,18 @@ export default function ThreeVisualizer({ audioFile, type = 'electronic' }) {
   );
 }
 
-function MetricItem({ label, value, color }) {
+function MetricItem({ label, value, color, isMobile = false }) {
   return (
     <div style={{
       background:"rgba(255,255,255,0.05)",
-      padding:"10px",
+      padding: isMobile ? "8px" : "10px",
       borderRadius:"8px",
       border:`1px solid ${color}30`
     }}>
-      <div style={{color:"rgba(255,255,255,0.7)", fontSize:"11px", marginBottom:"4px"}}>
+      <div style={{color:"rgba(255,255,255,0.7)", fontSize: isMobile ? "10px" : "11px", marginBottom:"4px"}}>
         {label}
       </div>
-      <div style={{color:color, fontSize:"14px", fontWeight:"bold"}}>
+      <div style={{color:color, fontSize: isMobile ? "12px" : "14px", fontWeight:"bold"}}>
         {value}
       </div>
     </div>
