@@ -796,7 +796,7 @@ const renderVisualizer = () => {
 
 const visualizerTitleStyle = {
   position: "fixed",
-  top: 15, // تغيير من 20 إلى 15 (أعلى قليلاً)
+  top: 40, // تغيير من 20 إلى 15 (أعلى قليلاً)
   right: 15, // جعله في الزاوية اليمنى دائماً
   background: "rgba(0,0,0,0.6)",
   padding: isMobile ? "6px 12px" : "10px 15px", // أصغر padding
